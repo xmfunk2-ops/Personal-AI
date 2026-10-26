@@ -1,131 +1,558 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Avee AI - Generative AI Web</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- FontAwesome icons for UI -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+:root {
+  --bg-main: #0b0f19;
+  --bg-sidebar: #0f172a;
+  --bg-panel: #131c31;
+  --bg-input: #1a233a;
+  --border-color: #27354f;
+  --accent-blue: #38bdf8;
+  --accent-cyan: #0ea5e9;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --sidebar-width: 280px;
+}
 
-  <div class="app-container">
-    <!-- Sidebar (Desktop & Mobile Drawer) -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="logo-area">
-          <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
-          <span class="logo-text">AVEE AI</span>
-        </div>
-        <button class="close-sidebar" id="closeSidebar"><i class="fa-solid fa-xmark"></i></button>
-      </div>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
 
-      <div class="sidebar-action">
-        <button class="new-chat-btn"><i class="fa-solid fa-plus"></i> New Chat</button>
-      </div>
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden;
+}
 
-      <div class="sidebar-menu">
-        <span class="menu-category">Recent Chats</span>
-        <a href="#" class="menu-item active"><i class="fa-solid fa-brain"></i> Deep Knowledge Extraction</a>
-        <a href="#" class="menu-item"><i class="fa-solid fa-code"></i> Code Assistant Python</a>
-        <a href="#" class="menu-item"><i class="fa-solid fa-book-open"></i> Creative Storytelling</a>
-        <a href="#" class="menu-item"><i class="fa-solid fa-microchip"></i> Deep Knowledge Extraction</a>
-        <a href="#" class="menu-item"><i class="fa-solid fa-terminal"></i> Code Assistant Python</a>
-        <a href="#" class="menu-item"><i class="fa-solid fa-file-lines"></i> Premium Pesoriation</a>
-        <a href="#" class="menu-item"><i class="fa-solid fa-folder"></i> Project KnanvBach</a>
-      </div>
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
 
-      <div class="sidebar-footer">
-        <a href="https://github.com" target="_blank" class="footer-link">
-          <i class="fa-brands fa-github"></i> Github <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
-        </a>
-        <div class="user-profile">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="User" class="user-avatar">
-          <div class="user-info">
-            <span class="user-name">Hornil Sahira</span>
-            <span class="user-email">profileer@gmail.com</span>
-          </div>
-          <i class="fa-solid fa-chevron-up user-chevron"></i>
-        </div>
-      </div>
-    </aside>
+/* Sidebar Styling */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease;
+  z-index: 100;
+}
 
-    <!-- Main Chat Area -->
-    <main class="main-content">
-      <!-- Top Navbar -->
-      <header class="top-navbar">
-        <div class="nav-left">
-          <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
-          <nav class="nav-tabs">
-            <a href="#" class="tab-item active"><i class="fa-regular fa-message"></i> Chat</a>
-            <a href="#" class="tab-item"><i class="fa-solid fa-book"></i> Knowledge Base</a>
-            <a href="#" class="tab-item"><i class="fa-solid fa-code"></i> Code</a>
-            <a href="#" class="tab-item"><i class="fa-solid fa-gear"></i> Settings</a>
-          </nav>
-        </div>
-        <div class="nav-right">
-          <span class="github-badge"><i class="fa-brands fa-github"></i> github.com/avee-ai/avee-ui</span>
-        </div>
-      </header>
+.sidebar-header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-      <!-- Chat Body / Messages -->
-      <div class="chat-viewport" id="chatViewport">
-        <div class="welcome-banner">
-          <h1>AVEE AI: Your Universal Intelligent Assistant.</h1>
-          <p>powered by Gemini.</p>
-        </div>
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-        <div class="messages-list" id="messagesList">
-          <!-- Default sample message to match design -->
-          <div class="message-group user-group">
-            <div class="message-bubble user-bubble">
-              Foydalanuvchi: O'zbekistonda turizmni rivojlantirish bo'yicha g'oyalar bering.
-            </div>
-          </div>
+.logo-icon {
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
 
-          <div class="message-group ai-group">
-            <div class="ai-avatar-small"><i class="fa-solid fa-bolt"></i></div>
-            <div class="message-content-wrapper">
-              <div class="sender-name">Avee AI</div>
-              <div class="message-bubble ai-bubble">
-                Zo'r savol! Mana bir nechta innovatsion yo'nalishlar, turizm salohiyatini rivojlantirish bo'yicha maslahatlar:
-                <ol>
-                  <li>O'zbekistonda turizmni rivojlantirish: turizm infratuzilmasini yaxshilash.</li>
-                  <li>Ekoturizm va qishloq turizmini kengaytirish.</li>
-                  <li>Gastronomik turizmni rivojlantirish yo'nalishlari.</li>
-                  <li>Creative storytelling, media kontentlarni dunyoga targ'ib qilish.</li>
-                  <li>Raqamli xizmatlar va sun'iy intellekt yordamida gid xizmatlarini rivojlantirish.</li>
-                </ol>
-              </div>
-              <div class="generated-image-card">
-                <div class="gen-img-placeholder"><i class="fa-regular fa-image"></i></div>
-                <span>Image generated by Avee</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+.logo-text {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
 
-      <!-- Input Bar Area -->
-      <div class="input-area-wrapper">
-        <form class="chat-input-form" id="chatForm">
-          <div class="input-actions-left">
-            <button type="button" class="tool-btn"><i class="fa-regular fa-face-smile"></i></button>
-            <button type="button" class="tool-btn"><i class="fa-solid fa-paperclip"></i></button>
-            <button type="button" class="tool-btn"><i class="fa-regular fa-image"></i></button>
-          </div>
-          <input type="text" id="userInput" placeholder="Avee AI'dan biror narsa so'rang..." autocomplete="off" required>
-          <button type="submit" class="send-btn" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
-        </form>
-        <div class="footer-status">
-          Avee AI v1.0 | Connected to Gemini API | Live & Responsive
-        </div>
-      </div>
-    </main>
-  </div>
+.close-sidebar {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  display: none;
+}
 
-  <!-- JavaScript import (Gemini SDK via ESM) -->
-  <script type="module" src="script.js"></script>
-</body>
-</html>
+.sidebar-action {
+  padding: 0 20px 15px 20px;
+}
+
+.new-chat-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #1e293b, #283655);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.new-chat-btn:hover {
+  background: #25334f;
+  border-color: var(--accent-blue);
+}
+
+.sidebar-menu {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-category {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 10px 10px 5px 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s;
+}
+
+.menu-item:hover, .menu-item.active {
+  background-color: rgba(56, 189, 248, 0.1);
+  color: var(--accent-blue);
+}
+
+.sidebar-footer {
+  padding: 15px 20px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-sidebar);
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  margin-bottom: 15px;
+  padding: 6px 0;
+}
+
+.footer-link:hover {
+  color: var(--text-main);
+}
+
+.external-icon {
+  font-size: 11px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-email {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-chevron {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--bg-main);
+  overflow: hidden;
+}
+
+.top-navbar {
+  height: 60px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  background-color: rgba(11, 15, 25, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 18px;
+  cursor: pointer;
+  display: none;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab-item {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.tab-item:hover, .tab-item.active {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+.tab-item.active {
+  border-bottom: 2px solid var(--accent-blue);
+  border-radius: 8px 8px 0 0;
+}
+
+.github-badge {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  background: var(--bg-panel);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+}
+
+/* Chat Viewport */
+.chat-viewport {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-banner {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.welcome-banner h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.welcome-banner p {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.messages-list {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.message-group {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.user-group {
+  justify-content: flex-end;
+}
+
+.ai-group {
+  justify-content: flex-start;
+}
+
+.ai-avatar-small {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.message-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 85%;
+}
+
+.sender-name {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.message-bubble {
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.user-bubble {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  max-width: 85%;
+}
+
+.ai-bubble {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-bottom-left-radius: 4px;
+}
+
+.ai-bubble ol {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.ai-bubble li {
+  margin-bottom: 4px;
+}
+
+.generated-image-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  max-width: 300px;
+}
+
+.gen-img-placeholder {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-input);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-blue);
+  font-size: 18px;
+}
+
+.generated-image-card span {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Input Area Wrapper */
+.input-area-wrapper {
+  padding: 20px 30px;
+  background-color: rgba(11, 15, 25, 0.9);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-input-form {
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  transition: border-color 0.2s;
+}
+
+.chat-input-form:focus-within {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+}
+
+.input-actions-left {
+  display: flex;
+  gap: 4px;
+}
+
+.tool-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tool-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+.chat-input-form input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 14.5px;
+  outline: none;
+  padding: 0 5px;
+}
+
+.chat-input-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.send-btn {
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  border: none;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.send-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.footer-status {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .close-sidebar {
+    display: block;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .github-badge {
+    display: none;
+  }
+
+  .top-navbar {
+    padding: 0 15px;
+  }
+
+  .chat-viewport {
+    padding: 15px;
+  }
+
+  .input-area-wrapper {
+    padding: 15px;
+  }
+
+  .welcome-banner h1 {
+    font-size: 18px;
+  }
+}
