@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avee AI - Generative AI Web</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- FontAwesome icons for UI -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar (Desktop & Mobile Drawer) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-area">
+          <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+          <span class="logo-text">AVEE AI</span>
+        </div>
+        <button class="close-sidebar" id="closeSidebar"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="sidebar-action">
+        <button class="new-chat-btn"><i class="fa-solid fa-plus"></i> New Chat</button>
+      </div>
+
+      <div class="sidebar-menu">
+        <span class="menu-category">Recent Chats</span>
+        <a href="#" class="menu-item active"><i class="fa-solid fa-brain"></i> Deep Knowledge Extraction</a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-code"></i> Code Assistant Python</a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-book-open"></i> Creative Storytelling</a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-microchip"></i> Deep Knowledge Extraction</a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-terminal"></i> Code Assistant Python</a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-file-lines"></i> Premium Pesoriation</a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-folder"></i> Project KnanvBach</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="https://github.com" target="_blank" class="footer-link">
+          <i class="fa-brands fa-github"></i> Github <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+        </a>
+        <div class="user-profile">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="User" class="user-avatar">
+          <div class="user-info">
+            <span class="user-name">Hornil Sahira</span>
+            <span class="user-email">profileer@gmail.com</span>
+          </div>
+          <i class="fa-solid fa-chevron-up user-chevron"></i>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <main class="main-content">
+      <!-- Top Navbar -->
+      <header class="top-navbar">
+        <div class="nav-left">
+          <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+          <nav class="nav-tabs">
+            <a href="#" class="tab-item active"><i class="fa-regular fa-message"></i> Chat</a>
+            <a href="#" class="tab-item"><i class="fa-solid fa-book"></i> Knowledge Base</a>
+            <a href="#" class="tab-item"><i class="fa-solid fa-code"></i> Code</a>
+            <a href="#" class="tab-item"><i class="fa-solid fa-gear"></i> Settings</a>
+          </nav>
+        </div>
+        <div class="nav-right">
+          <span class="github-badge"><i class="fa-brands fa-github"></i> github.com/avee-ai/avee-ui</span>
+        </div>
+      </header>
+
+      <!-- Chat Body / Messages -->
+      <div class="chat-viewport" id="chatViewport">
+        <div class="welcome-banner">
+          <h1>AVEE AI: Your Universal Intelligent Assistant.</h1>
+          <p>powered by Gemini.</p>
+        </div>
+
+        <div class="messages-list" id="messagesList">
+          <!-- Default sample message to match design -->
+          <div class="message-group user-group">
+            <div class="message-bubble user-bubble">
+              Foydalanuvchi: O'zbekistonda turizmni rivojlantirish bo'yicha g'oyalar bering.
+            </div>
+          </div>
+
+          <div class="message-group ai-group">
+            <div class="ai-avatar-small"><i class="fa-solid fa-bolt"></i></div>
+            <div class="message-content-wrapper">
+              <div class="sender-name">Avee AI</div>
+              <div class="message-bubble ai-bubble">
+                Zo'r savol! Mana bir nechta innovatsion yo'nalishlar, turizm salohiyatini rivojlantirish bo'yicha maslahatlar:
+                <ol>
+                  <li>O'zbekistonda turizmni rivojlantirish: turizm infratuzilmasini yaxshilash.</li>
+                  <li>Ekoturizm va qishloq turizmini kengaytirish.</li>
+                  <li>Gastronomik turizmni rivojlantirish yo'nalishlari.</li>
+                  <li>Creative storytelling, media kontentlarni dunyoga targ'ib qilish.</li>
+                  <li>Raqamli xizmatlar va sun'iy intellekt yordamida gid xizmatlarini rivojlantirish.</li>
+                </ol>
+              </div>
+              <div class="generated-image-card">
+                <div class="gen-img-placeholder"><i class="fa-regular fa-image"></i></div>
+                <span>Image generated by Avee</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Bar Area -->
+      <div class="input-area-wrapper">
+        <form class="chat-input-form" id="chatForm">
+          <div class="input-actions-left">
+            <button type="button" class="tool-btn"><i class="fa-regular fa-face-smile"></i></button>
+            <button type="button" class="tool-btn"><i class="fa-solid fa-paperclip"></i></button>
+            <button type="button" class="tool-btn"><i class="fa-regular fa-image"></i></button>
+          </div>
+          <input type="text" id="userInput" placeholder="Avee AI'dan biror narsa so'rang..." autocomplete="off" required>
+          <button type="submit" class="send-btn" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+        <div class="footer-status">
+          Avee AI v1.0 | Connected to Gemini API | Live & Responsive
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript import (Gemini SDK via ESM) -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
